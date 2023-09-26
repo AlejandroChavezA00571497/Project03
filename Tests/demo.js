@@ -8,9 +8,10 @@ const baseUrl = "http://127.0.0.1:5000/api/v1.0/alldata"
 
 // Console log ejemplo con la información de company
 d3.json(baseUrl).then(function(jsonData) {
-  console.log(jsonData);
+  //console.log(jsonData);
 });
 
+/*
 //Reading the data, extracting the first company's data and using it to run the inital bar chart function
 d3.json(baseUrl).then(function(jsonData){
   let firstCompany = jsonData[0]["company"];
@@ -32,6 +33,7 @@ function initialChart(firstCompany){
 
   })
 }
+
 
 
 //Define function for building the barCharts
@@ -64,3 +66,53 @@ function barChart(firstCompany){
 function optionChanged(firstCompany){
   barChart(firstCompany);
 };
+*/
+
+
+//---------------------------------------------------------------------------
+// Charts
+
+
+d3.json(baseUrl).then(function(jsonData) {
+  let allData = jsonData;
+  let companies = []
+  for(let i = 0; i < allData.length; i++){
+    let company = allData[i].company;
+    if(company){
+      companies.push(company)
+    }
+  }
+  let uniqueCompanies = [...new Set(companies)]
+
+  let totalyearlycompensations = []
+  for(let i = 0; i < allData.length; i++){
+    let compensation = allData[i].totalyearlycompensation;
+    if(compensation){
+      totalyearlycompensations.push(compensation)
+    }
+  }
+
+  const ctx = document.getElementById('myChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: uniqueCompanies,
+      datasets: [{
+        label: 'Average Total Yearly Compensation',
+        data: totalyearlycompensations,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          stepSize: 10000,
+          min: 0,
+          max: 600000
+        }
+      }
+    }
+  });
+
+});
