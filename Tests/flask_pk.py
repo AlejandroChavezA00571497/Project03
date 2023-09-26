@@ -67,7 +67,8 @@ def welcome():
         f"/api/v1.0/racewhite<br/>"
         f"/api/v1.0/racetwoormore<br/>"
         f"/api/v1.0/raceblack<br/>"
-        f"/api/v1.0/racehispanic"
+        f"/api/v1.0/racehispanic<br/>"
+        f"/api/v1.0/alldata"
 
     )
 
@@ -421,30 +422,46 @@ def racehispanic():
     return jsonify(all_racehispanics)
 
 
-
-"""
-@app.route("/api/v1.0/passengers")
-def passengers():
+@app.route("/api/v1.0/alldata")
+def alldata():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    '''Return a list of passenger data including the name, age, and sex of each passenger'''
+    """Return a list of passenger data including the name, age, and sex of each passenger"""
     # Query all passengers
-    results = session.query(top_20_companies.name, top_20_companies.age, top_20_companies.sex).all()
+    results = session.query(top_20_companies.id, top_20_companies.timestamp, top_20_companies.company, top_20_companies.level, top_20_companies.title, top_20_companies.totalyearlycompensation, top_20_companies.location, top_20_companies.yearsofexperience, top_20_companies.yearsatcompany, top_20_companies.tag, top_20_companies.gender, top_20_companies.cityid, top_20_companies.dmaid, top_20_companies.rownumber, top_20_companies.mastersdegree, top_20_companies.bachelorsdegree, top_20_companies.doctoratedegree, top_20_companies.raceasian, top_20_companies.racewhite, top_20_companies.racetwoormore, top_20_companies.raceblack, top_20_companies.racehispanic).all()
 
     session.close()
 
     # Create a dictionary from the row data and append to a list of all_passengers
-    all_passengers = []
-    for name, age, sex in results:
-        passenger_dict = {}
-        passenger_dict["name"] = name
-        passenger_dict["age"] = age
-        passenger_dict["sex"] = sex
-        all_passengers.append(passenger_dict)
+    all_data_list = []
+    for id, timestamp, company, level, title, totalyearlycompensation, location, yearsofexperience, yearsatcompany, tag, gender, cityid, dmaid, rownumber, mastersdegree, bachelorsdegree, doctoratedegree, raceasian, racewhite, racetwoormore, raceblack, racehispanic in results:
+        all_data_dict = {}
+        all_data_dict["id"] = id
+        all_data_dict["timestamp"] = timestamp
+        all_data_dict["company"] = company
+        all_data_dict["level"] = level
+        all_data_dict["title"] = title
+        all_data_dict["totalyearlycompensation"] = totalyearlycompensation
+        all_data_dict["location"] = location
+        all_data_dict["yearsofexperience"] = yearsofexperience
+        all_data_dict["yearsatcompany"] = yearsatcompany
+        all_data_dict["tag"] = tag
+        all_data_dict["gender"] = gender
+        all_data_dict["cityid"] = cityid
+        all_data_dict["dmaid"] = dmaid
+        all_data_dict["rownumber"] = rownumber
+        all_data_dict["mastersdegree"] = mastersdegree
+        all_data_dict["bachelorsdegree"] = bachelorsdegree
+        all_data_dict["doctoratedegree"] = doctoratedegree
+        all_data_dict["raceasian"] = raceasian
+        all_data_dict["racewhite"] = racewhite
+        all_data_dict["racetwoormore"] = racetwoormore
+        all_data_dict["raceblack"] = raceblack
+        all_data_dict["racehispanic"] = racehispanic
+        all_data_list.append(all_data_dict)
 
-    return jsonify(all_passengers)
-"""
+    return jsonify(all_data_list)
 
 
 if __name__ == '__main__':
