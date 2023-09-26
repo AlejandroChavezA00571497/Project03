@@ -35,7 +35,7 @@ top_20_companies = Base.classes.top20
 # Flask Setup
 #################################################
 app = Flask(__name__)
-#CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:8001"}})
+CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:8001"}})
 
 #################################################
 # Flask Routes
