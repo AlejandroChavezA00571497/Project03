@@ -158,7 +158,8 @@ def totalyearlycompensation():
     session.close()
 
     # Convert list of tuples into normal list
-    all_totalyearlycompensations = list(np.ravel(results))
+    all_totalyearlycompensations = [float(x) for x in np.ravel(results)]
+    #all_totalyearlycompensations = list(np.ravel(results))
 
     return jsonify(all_totalyearlycompensations)
 
@@ -189,7 +190,7 @@ def yearsofexperience():
 
     # Convert list of tuples into normal list
     all_yearsofexperience = list(np.ravel(results))
-
+    
     return jsonify(all_yearsofexperience)
 
 @app.route("/api/v1.0/yearsatcompany")
@@ -252,7 +253,8 @@ def cityid():
     session.close()
 
     # Convert list of tuples into normal list
-    all_cityids = list(np.ravel(results))
+    all_cityids = [int(x) for x in np.ravel(results)]
+    #all_cityids = list(np.ravel(results))
 
     return jsonify(all_cityids)
 
@@ -284,7 +286,8 @@ def rownumber():
     session.close()
 
     # Convert list of tuples into normal list
-    all_rownumbers = list(np.ravel(results))
+    all_rownumbers = [int(x) for x in np.ravel(results)]
+    #all_rownumbers = list(np.ravel(results))
 
     return jsonify(all_rownumbers)
 
@@ -300,7 +303,8 @@ def mastersdegree():
     session.close()
 
     # Convert list of tuples into normal list
-    all_mastersdegrees = list(np.ravel(results))
+    all_mastersdegrees = [bool(x) for x in np.ravel(results)]
+    #all_mastersdegrees = list(np.ravel(results))
 
     return jsonify(all_mastersdegrees)
 
@@ -316,7 +320,7 @@ def bachelorsdegree():
     session.close()
 
     # Convert list of tuples into normal list
-    all_bachelorsdegrees = list(np.ravel(results))
+    all_bachelorsdegrees = [bool(x) for x in np.ravel(results)]
 
     return jsonify(all_bachelorsdegrees)
 
@@ -332,7 +336,7 @@ def doctoratedegree():
     session.close()
 
     # Convert list of tuples into normal list
-    all_doctoratedegrees = list(np.ravel(results))
+    all_doctoratedegrees = [bool(x) for x in np.ravel(results)]
 
     return jsonify(all_doctoratedegrees)
 
@@ -348,7 +352,7 @@ def raceasian():
     session.close()
 
     # Convert list of tuples into normal list
-    all_raceasians = list(np.ravel(results))
+    all_raceasians = [bool(x) for x in np.ravel(results)]
 
     return jsonify(all_raceasians)
 
@@ -364,7 +368,7 @@ def racewhite():
     session.close()
 
     # Convert list of tuples into normal list
-    all_racewhites = list(np.ravel(results))
+    all_racewhites = [bool(x) for x in np.ravel(results)]
 
     return jsonify(all_racewhites)
 
@@ -380,7 +384,7 @@ def racetwoormore():
     session.close()
 
     # Convert list of tuples into normal list
-    all_racetwoormores = list(np.ravel(results))
+    all_racetwoormores = [bool(x) for x in np.ravel(results)]
 
     return jsonify(all_racetwoormores)
 
@@ -396,7 +400,7 @@ def raceblack():
     session.close()
 
     # Convert list of tuples into normal list
-    all_raceblacks = list(np.ravel(results))
+    all_raceblacks = [bool(x) for x in np.ravel(results)]
 
     return jsonify(all_raceblacks)
 
@@ -412,7 +416,7 @@ def racehispanic():
     session.close()
 
     # Convert list of tuples into normal list
-    all_racehispanics = list(np.ravel(results))
+    all_racehispanics = [bool(x) for x in np.ravel(results)]
 
     return jsonify(all_racehispanics)
 
