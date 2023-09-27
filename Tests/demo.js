@@ -120,36 +120,24 @@ d3.json(baseUrl).then(function(jsonData) {
 
 // Line Chart YearsOfExperience - TotalYearlyCompensation
 d3.json(baseUrl).then(function(jsonData) {
-  let allData = jsonData;
-  let years = []
-  for(let i = 0; i < allData.length; i++){
-    let year = allData[i].yearsofexperience;
-    if(year){
-      years.push(year)
-    }
-  };
+  const groupedData = d3.group(jsonData, d => d.yearsofexperience);
+  const averages = Array.from(groupedData, ([yearsofexperience, values]) => ({
+    yearsofexperience: +yearsofexperience,
+    averageTotalYearlyCompensation: d3.mean(values, d => d.totalyearlycompensation),
+  }));
 
-  let uniqueYears = [...new Set(years)]
-  uniqueYears.sort(function(a,b){
-    return a-b;
-  });
-
-  let totalyearlycompensations = []
-  for(let i = 0; i < allData.length; i++){
-    let compensation = allData[i].totalyearlycompensation;
-    if(compensation){
-      totalyearlycompensations.push(compensation)
-    }
-  }
-
+  const years = averages.map(d => d.yearsofexperience);
+  const avgCompensation = averages.map(d => d.averageTotalYearlyCompensation);
+  years.sort((a,b) => a-b)
+  
   const ctx = document.getElementById('myChart02');
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: uniqueYears,
+      labels: years,
       datasets: [{
         label: 'Average Total Yearly Compensation per year',
-        data: totalyearlycompensations,
+        data: avgCompensation,
         fill: false,
         borderColor: 'rgb(75, 192, 192)',
         tension: 0.1
