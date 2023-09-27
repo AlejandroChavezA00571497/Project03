@@ -72,7 +72,7 @@ function optionChanged(firstCompany){
 //---------------------------------------------------------------------------
 // Charts
 
-
+// Bar Chart Company - TotalYearlyCompensation
 d3.json(baseUrl).then(function(jsonData) {
   let allData = jsonData;
   let companies = []
@@ -92,7 +92,7 @@ d3.json(baseUrl).then(function(jsonData) {
     }
   }
 
-  const ctx = document.getElementById('myChart');
+  const ctx = document.getElementById('myChart01');
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -110,6 +110,58 @@ d3.json(baseUrl).then(function(jsonData) {
           stepSize: 10000,
           min: 0,
           max: 600000
+        }
+      }
+    }
+  });
+
+});
+
+
+// Line Chart YearsOfExperience - TotalYearlyCompensation
+d3.json(baseUrl).then(function(jsonData) {
+  let allData = jsonData;
+  let years = []
+  for(let i = 0; i < allData.length; i++){
+    let year = allData[i].yearsofexperience;
+    if(year){
+      years.push(year)
+    }
+  };
+
+  let uniqueYears = [...new Set(years)]
+  uniqueYears.sort(function(a,b){
+    return a-b;
+  });
+
+  let totalyearlycompensations = []
+  for(let i = 0; i < allData.length; i++){
+    let compensation = allData[i].totalyearlycompensation;
+    if(compensation){
+      totalyearlycompensations.push(compensation)
+    }
+  }
+
+  const ctx = document.getElementById('myChart02');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: uniqueYears,
+      datasets: [{
+        label: 'Average Total Yearly Compensation per year',
+        data: totalyearlycompensations,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          stepSize: 10000,
+          min: 0,
+          max: 1000000
         }
       }
     }
