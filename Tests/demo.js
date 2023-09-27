@@ -26,9 +26,21 @@ d3.json(baseUrl).then(function(jsonData){
 // Define function for the initial chart
 function initialChart(firstCompany){
   d3.json(baseUrl).then(function(jsonData){
+      let allData = jsonData;
       let subjectSelector = d3.select("#selDataset");
-      let companies = jsonData.company;
-      companies.forEach(function(company){
+      let companies = []
+      for (i = 1; i < allData.length; i++){
+        companies.push(allData[i]["company"])
+      }
+
+      const companyData = d3.group(jsonData, d => d.company);
+        const companyAverages = Array.from(companyData, ([key, value]) => ({
+            company: key,
+            averageSalary: d3.mean(value, d => d.totalyearlycompensation)
+        }));
+      companyAverages.sort((a, b) => b.averageSalary - a.averageSalary);
+      const companyNames = companyAverages.map(d => d.company);
+      companyNames.forEach(function(company){
           subjectSelector.append("option").text(company);
       })
   
@@ -42,7 +54,8 @@ function initialChart(firstCompany){
 //Define function for building the barCharts
 function barChart(firstCompany){
   d3.json(baseUrl).then(function(jsonData){
-      let companyData = jsonData.samples.filter(x => x.id == firstCompany);
+    let allData = jsonData;
+    let companyData = allData.filter(x => x.company == firstCompany);
 
 
       let barChartData = [{
