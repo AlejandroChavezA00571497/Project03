@@ -24,5 +24,7 @@ h1{
     text-align: center;
 }
 #canvas{
-    width:100%;
+    width: 678px;
+    height: auto;
+    float:inline-start;
 }
