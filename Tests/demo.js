@@ -72,7 +72,7 @@ function optionChanged(firstCompany){
 //---------------------------------------------------------------------------
 // Charts
 
-// Bar Chart Company - TotalYearlyCompensation
+// Bar Chart: Company - TotalYearlyCompensation
 d3.json(baseUrl).then(function(jsonData) {
   const companyData = d3.group(jsonData, d => d.company);
         const companyAverages = Array.from(companyData, ([key, value]) => ({
@@ -112,7 +112,7 @@ d3.json(baseUrl).then(function(jsonData) {
 });
 
 
-// Line Chart YearsOfExperience - TotalYearlyCompensation
+// Line Chart: YearsOfExperience - TotalYearlyCompensation
 d3.json(baseUrl).then(function(jsonData) {
   const groupedYearsOfExperience = d3.group(jsonData, d => d.yearsofexperience);
   const averagesYearsOfExperience = Array.from(groupedYearsOfExperience, ([yearsofexperience, values]) => ({
@@ -145,6 +145,46 @@ d3.json(baseUrl).then(function(jsonData) {
           min: 0,
           max: 1000000
         }
+      }
+    }
+  });
+
+});
+
+
+// Pie Chart: Gender Distribution
+
+d3.json(baseUrl).then(function(jsonData) {
+  const genderCounts = {
+    male: 0,
+    female: 0,
+    other: 0,
+  };
+  
+  jsonData.forEach(entry => {
+    const gender = entry.gender.toLowerCase(); // Assuming 'gender' is a property in your JSON data
+    if (gender === 'male') {
+      genderCounts.male++;
+    } else { (gender === 'female') 
+      genderCounts.female++;
+    } 
+  });
+  
+  const ctx = document.getElementById('myChart03');
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ["Male", "Female"],
+      datasets: [{
+        data: [genderCounts.male, genderCounts.female],
+        backgroundColor: ['#FF5733', '#33FF57'],
+      }],
+    },
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Gender Distribution"
       }
     }
   });
