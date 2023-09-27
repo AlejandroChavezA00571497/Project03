@@ -8,10 +8,13 @@ const baseUrl = "http://127.0.0.1:5000/api/v1.0/alldata"
 
 // Console log ejemplo con la información de company
 d3.json(baseUrl).then(function(jsonData) {
-  //console.log(jsonData);
+  console.log(jsonData);
 });
 
-/*
+
+//---------------------------------------------------------------------------
+// Interacive Charts
+
 //Reading the data, extracting the first company's data and using it to run the inital bar chart function
 d3.json(baseUrl).then(function(jsonData){
   let firstCompany = jsonData[0]["company"];
@@ -66,11 +69,15 @@ function barChart(firstCompany){
 function optionChanged(firstCompany){
   barChart(firstCompany);
 };
-*/
+
+
+
+
+
 
 
 //---------------------------------------------------------------------------
-// Charts
+// Static Charts
 
 // Bar Chart: Company - TotalYearlyCompensation
 d3.json(baseUrl).then(function(jsonData) {
@@ -153,7 +160,6 @@ d3.json(baseUrl).then(function(jsonData) {
 
 
 // Pie Chart: Gender Distribution
-
 d3.json(baseUrl).then(function(jsonData) {
   const genderCounts = {
     male: 0,
