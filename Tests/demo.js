@@ -838,5 +838,5 @@ for(let i = 0; i < locationsList.length; i++){
     heatmapData.push([currentLocation.latitude, currentLocation.longitude])
   }
 }
-var heat = L.heatLayer(heatmapData, {minOpacity: 0.2, radius: 10, blur: 1 }).addTo(myMap);
+var heat = L.heatLayer(heatmapData, {minOpacity: 0.4, radius: 10, blur: 1 }).addTo(myMap);
 //>>>>>>> c33c66436a37126e6b58f8eb6851bf8083c84980
