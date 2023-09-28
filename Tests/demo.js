@@ -111,7 +111,7 @@ d3.json(baseUrl)
         console.error('Error fetching data:', error);
     });
 
-    
+
 
 // Define a function to update company information based on user selection
 function updateCompanyInfo(data) {
