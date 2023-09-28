@@ -85,6 +85,105 @@ function optionChanged(firstCompany){
 
 
 
+// Define a global variable to hold the data
+
+d3.json(baseUrl)
+    .then(data => {
+        // Extract unique company names from the data
+        const uniqueCompanies = [...new Set(data.map(entry => entry.company))];
+
+        // Populate the dropdown menu with company options
+        const companyDropdown = d3.select('#companyDropdown');
+        companyDropdown
+            .selectAll('option')
+            .data(uniqueCompanies)
+            .enter()
+            .append('option')
+            .text(d => d);
+
+        // Add event listener to the dropdown for company selection
+        companyDropdown.on('change', function () {
+            updateCompanyInfo(data); // Pass the 'data' variable to the function
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+
+    
+
+// Define a function to update company information based on user selection
+function updateCompanyInfo(data) {
+    const selectedCompany = d3.select('#companyDropdown').property('value');
+    const filteredData = data.filter(entry => entry.company === selectedCompany);
+
+    // Calculate average values
+    const avgCompensation = d3.mean(filteredData, d => d.totalyearlycompensation);
+    const avgExperience = d3.mean(filteredData, d => d.yearsofexperience);
+    const avgYearsAtCompany = d3.mean(filteredData, d => d.yearsatcompany);
+
+    // Calculate the most common location
+    const locationCounts = d3.rollup(
+        filteredData,
+        v => v.length,
+        d => d.location
+    );
+    const mostCommonLocation = d3.max(locationCounts, d => d[1]);
+
+    // Filter out invalid or empty gender values
+    const validGenders = ['Male', 'Female', 'Other'];
+    const filteredGenderData = filteredData.filter(entry => validGenders.includes(entry.gender));
+
+    // Calculate the total count of valid gender entries
+    const totalValidGenderCount = filteredGenderData.length;
+
+    // Calculate gender distribution as percentages
+    const genderCounts = d3.rollup(
+        filteredGenderData,
+        v => v.length,
+        d => d.gender
+    );
+    const genderDistribution = Array.from(genderCounts, ([gender, count]) => ({
+        gender,
+        count,
+        percentage: (count / totalValidGenderCount) * 100, // Calculate the percentage
+    }));
+
+    // Calculate the most common title
+    const titleCounts = d3.rollup(
+        filteredData,
+        v => v.length,
+        d => d.title
+    );
+    const mostCommonTitle = d3.max(titleCounts, d => d[1]);
+
+    // Update the display with the calculated values
+    d3.select('#avgCompensation').text(avgCompensation.toFixed(2));
+    d3.select('#mostCommonLocation').text(mostCommonLocation);
+    d3.select('#avgExperience').text(avgExperience.toFixed(2));
+    d3.select('#avgYearsAtCompany').text(avgYearsAtCompany.toFixed(2));
+
+    const genderList = d3.select('#genderDistribution')
+        .selectAll('li')
+        .data(genderDistribution, d => d.gender); // Use a key function to bind data
+
+    // Exit
+    genderList.exit().remove();
+
+    // Enter
+    const genderListEnter = genderList
+        .enter()
+        .append('li');
+
+    // Update
+    genderList.merge(genderListEnter)
+        .text(d => `${d.gender}: ${d.count} (${d.percentage.toFixed(2)}%)`);
+        
+    // Update the most common title
+    d3.select('#mostCommonTitle').text(mostCommonTitle);
+}
+
+
 
 
 
