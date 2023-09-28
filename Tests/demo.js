@@ -211,7 +211,6 @@ d3.json(baseUrl).then(function(jsonData) {
 
 });
 
-<<<<<<< HEAD
 // Bar Chart: Education Level Distribution
 d3.json(baseUrl).then(function(jsonData) {
   let gradeCounts = {
@@ -261,26 +260,17 @@ d3.json(baseUrl).then(function(jsonData) {
 
 });
 
-=======
-
-
-
 
 
 //---------------------------------------------------------------------------
 // Maps
-
 // Heatmap: Locations
-
 var myMap = L.map('map').setView([0, 0], 2);
-
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(myMap);
 
-
 var heatmapData = [];
-
 const locationsList = [
   { name: "Aachen, NW, Germany", latitude: 50.7753, longitude: 6.0839 },
   { name: "Aarhus, AR, Denmark", latitude: 56.1629, longitude: 10.2039 },
@@ -680,13 +670,11 @@ const locationsList = [
   { name: "Zurich, Switzerland", latitude: 47.3769, longitude: 8.5417 },
   
 ];
-
 for(let i = 0; i < locationsList.length; i++){
   let currentLocation = locationsList[i];
   if(currentLocation){
     heatmapData.push([currentLocation.latitude, currentLocation.longitude])
   }
 }
-
 var heat = L.heatLayer(heatmapData, {minOpacity: 0.2, radius: 10, blur: 1 }).addTo(myMap);
->>>>>>> c33c66436a37126e6b58f8eb6851bf8083c84980
+//>>>>>>> c33c66436a37126e6b58f8eb6851bf8083c84980
