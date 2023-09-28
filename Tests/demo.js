@@ -209,20 +209,22 @@ d3.json(baseUrl).then(function(jsonData) {
   jsonData.forEach(entry => {
     const gender = entry.gender.toLowerCase(); // Assuming 'gender' is a property in your JSON data
     if (gender === 'male') {
-      genderCounts.male++;
-    } else { (gender === 'female') 
-      genderCounts.female++;
-    } 
+      genderCounts.male ++;
+    } else if { (gender === 'female') 
+      genderCounts.female ++;
+    } else {
+      genderCounts.other ++;
+    }
   });
   
   const ctx = document.getElementById('myChart03');
   new Chart(ctx, {
     type: 'pie',
     data: {
-      labels: ["Male", "Female"],
+      labels: ["Male", "Female", "non-specified"],
       datasets: [{
-        data: [genderCounts.male, genderCounts.female],
-        backgroundColor: ['#FF5733', '#33FF57'],
+        data: [genderCounts.male, genderCounts.female, genderCounts.other],
+        backgroundColor: ['#FF5733', '#33FF57', '#F08080'],
       }],
     },
     options: {
@@ -233,10 +235,11 @@ d3.json(baseUrl).then(function(jsonData) {
       }
     }
   });
-
 });
+console.log(genderCounts);
 
-// Bar Chart: Education Level Distribution
+// Horizontal Bar Chart: Education Level Distribution
+
 d3.json(baseUrl).then(function(jsonData) {
   let gradeCounts = {
     master: 0,
