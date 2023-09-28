@@ -16,6 +16,10 @@ body{
     min-height: 100vh;
 }
 
+.theme-default-content .chart-view {
+    max-width: 800px;
+}
+
 .container{
     width: 70%;
 }
