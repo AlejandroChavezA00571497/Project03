@@ -346,7 +346,7 @@ d3.json(baseUrl).then(function(jsonData) {
     const gender = entry.gender.toLowerCase(); // Assuming 'gender' is a property in your JSON data
     if (gender === 'male') {
       genderCounts.male ++;
-    } else if (gender === 'female') { 
+    } else if (gender === 'female'){
       genderCounts.female ++;
     } else {
       genderCounts.other ++;
