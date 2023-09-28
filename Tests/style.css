@@ -1,32 +1,51 @@
-*,*:after,*before{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-}
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    margin: 0;
-    background: #fff;
-    color: #000;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    min-height: 100vh;
-}
+  }
+  
+  h1 {
+    font-size: 36px;
+  }
+  
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
 
-.theme-default-content .chart-view {
-    max-width: 800px;
-}
+  body {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .jumbotron {
+    background-color: #0859af;
+    color: #fff;
+  }
+  
+  a {
+    color: #007bff;
+  }
+  .jumbotron {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .well {
+    padding: 10px;
+  }
+  
+  .panel-body {
+    padding: 20px;
+  }
 
-.container{
-    width: 70%;
-}
-h1{
-    font-size: 46px;
-    text-align: center;
-}
-#canvas{
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  select {
     width: 100%;
-}
+    padding: 5px;
+  }
