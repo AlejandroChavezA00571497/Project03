@@ -250,6 +250,7 @@ d3.json(baseUrl).then(function(jsonData) {
       }],
     },
     options: {
+      indexAxis: 'y',
       responsive: true,
       title: {
         display: true,
