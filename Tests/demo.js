@@ -118,6 +118,7 @@ d3.json(baseUrl).then(function(jsonData) {
       }]
     },
     options: {
+      //indexAxis: 'y', 
       scales: {
         y: {
           beginAtZero: true,
@@ -209,3 +210,53 @@ d3.json(baseUrl).then(function(jsonData) {
   });
 
 });
+
+// Bar Chart: Education Level Distribution
+d3.json(baseUrl).then(function(jsonData) {
+  let gradeCounts = {
+    master: 0,
+    doctorate: 0,
+    bachelors: 0,
+    other: 0,
+  };
+  
+//  def count(masterdegree):
+//    return sum(bool(x) for x in masterdegree)
+
+  jsonData.forEach(eachRow => {
+    //console.log(eachRow)
+    if (eachRow.doctoratedegree) {
+      gradeCounts.doctorate ++;
+    } else if (eachRow.mastersdegree) {
+      gradeCounts.master ++; 
+    } else if (eachRow.bachelorsdegree){
+      gradeCounts.bachelors ++;
+    } else {
+      gradeCounts.other ++;
+    }
+  });
+
+  console.log(gradeCounts);
+  
+  const ctx = document.getElementById('myChart04');
+  console.log(ctx);
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ["Master", "Doctorate", "Bachelors", "Other"],
+      datasets: [{
+        data: [gradeCounts.master, gradeCounts.doctorate, gradeCounts.bachelors, gradeCounts.other],
+        backgroundColor: ['#FF5733', '#33FF57', '#F08080', '#40E0D0'],
+      }],
+    },
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Education Level Distribution"
+      }
+    }
+  });
+
+});
+
