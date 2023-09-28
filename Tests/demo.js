@@ -15,103 +15,78 @@ d3.json(baseUrl).then(function(jsonData) {
 //---------------------------------------------------------------------------
 // Interacive Charts
 
-// Define a global variable to hold the data
-
-d3.json(baseUrl)
-    .then(data => {
-        // Extract unique company names from the data
-        const uniqueCompanies = [...new Set(data.map(entry => entry.company))];
-
-        // Populate the dropdown menu with company options
-        const companyDropdown = d3.select('#companyDropdown');
-        companyDropdown
-            .selectAll('option')
-            .data(uniqueCompanies)
-            .enter()
-            .append('option')
-            .text(d => d);
-
-        // Add event listener to the dropdown for company selection
-        companyDropdown.on('change', function () {
-            updateCompanyInfo(data); // Pass the 'data' variable to the function
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
+//Reading the data, extracting the first company's data and using it to run the inital bar chart function
+d3.json(baseUrl).then(function(jsonData){
+  let firstCompany = jsonData[0]["company"];
+  console.log(firstCompany)
+  initialChart(firstCompany)
+});
 
 
+// Define function for the initial chart
+function initialChart(firstCompany){
+  d3.json(baseUrl).then(function(jsonData){
+      let allData = jsonData;
+      let subjectSelector = d3.select("#selDataset");
+      let companies = []
+      for (i = 1; i < allData.length; i++){
+        companies.push(allData[i]["company"])
+      }
 
-// Define a function to update company information based on user selection
-function updateCompanyInfo(data) {
-    const selectedCompany = d3.select('#companyDropdown').property('value');
-    const filteredData = data.filter(entry => entry.company === selectedCompany);
+      const companyData = d3.group(jsonData, d => d.company);
+        const companyAverages = Array.from(companyData, ([key, value]) => ({
+            company: key,
+            averageSalary: d3.mean(value, d => d.totalyearlycompensation)
+        }));
+      companyAverages.sort((a, b) => b.averageSalary - a.averageSalary);
+      const companyNames = companyAverages.map(d => d.company);
+      companyNames.forEach(function(company){
+          subjectSelector.append("option").text(company);
+      })
+  
+      barChart(firstCompany);
 
-    // Calculate average values
-    const avgCompensation = d3.mean(filteredData, d => d.totalyearlycompensation);
-    const avgExperience = d3.mean(filteredData, d => d.yearsofexperience);
-    const avgYearsAtCompany = d3.mean(filteredData, d => d.yearsatcompany);
-
-    // Calculate the most common location
-    const locationCounts = d3.rollup(
-        filteredData,
-        v => v.length,
-        d => d.location
-    );
-    const mostCommonLocation = d3.max(locationCounts, d => d[1]);
-
-    // Filter out invalid or empty gender values
-    const validGenders = ['Male', 'Female', 'Other'];
-    const filteredGenderData = filteredData.filter(entry => validGenders.includes(entry.gender));
-
-    // Calculate the total count of valid gender entries
-    const totalValidGenderCount = filteredGenderData.length;
-
-    // Calculate gender distribution as percentages
-    const genderCounts = d3.rollup(
-        filteredGenderData,
-        v => v.length,
-        d => d.gender
-    );
-    const genderDistribution = Array.from(genderCounts, ([gender, count]) => ({
-        gender,
-        count,
-        percentage: (count / totalValidGenderCount) * 100, // Calculate the percentage
-    }));
-
-    // Calculate the most common title
-    const titleCounts = d3.rollup(
-        filteredData,
-        v => v.length,
-        d => d.title
-    );
-    const mostCommonTitle = d3.max(titleCounts, d => d[1]);
-
-    // Update the display with the calculated values
-    d3.select('#avgCompensation').text(avgCompensation.toFixed(2));
-    d3.select('#mostCommonLocation').text(mostCommonLocation);
-    d3.select('#avgExperience').text(avgExperience.toFixed(2));
-    d3.select('#avgYearsAtCompany').text(avgYearsAtCompany.toFixed(2));
-
-    const genderList = d3.select('#genderDistribution')
-        .selectAll('li')
-        .data(genderDistribution, d => d.gender); // Use a key function to bind data
-
-    // Exit
-    genderList.exit().remove();
-
-    // Enter
-    const genderListEnter = genderList
-        .enter()
-        .append('li');
-
-    // Update
-    genderList.merge(genderListEnter)
-        .text(d => `${d.gender}: ${d.count} (${d.percentage.toFixed(2)}%)`);
-        
-    // Update the most common title
-    d3.select('#mostCommonTitle').text(mostCommonTitle);
+  })
 }
+
+
+
+//Define function for building the barCharts
+function barChart(firstCompany){
+  d3.json(baseUrl).then(function(jsonData){
+    let allData = jsonData;
+    let companyData = allData.filter(x => x.company == firstCompany);
+
+
+      let barChartData = [{
+          x : companyData[0].company,
+          y : companyData[0].totalyearlycompensation,
+          type : "bar",
+          orientation : "h",
+          text : companyData[0].totalyearlycompensation
+      }];
+
+      let barChartLayout = {
+          height : 500,
+          width : 600,
+          yaxis : {type : "category"}
+      }
+
+      Plotly.newPlot("bar", barChartData, barChartLayout)
+  })
+};
+
+
+//Define the optionChanged function present in the HTML, in order to actually change the visualizations according to the selected SubjectID
+
+function optionChanged(firstCompany){
+  barChart(firstCompany);
+};
+
+
+
+
+
 
 
 //---------------------------------------------------------------------------
@@ -236,7 +211,7 @@ d3.json(baseUrl).then(function(jsonData) {
 
 });
 
-// Bar Chart: Education Level Distribution
+// Horizontal Chart: Education Level Distribution
 d3.json(baseUrl).then(function(jsonData) {
   let gradeCounts = {
     master: 0,
@@ -702,5 +677,5 @@ for(let i = 0; i < locationsList.length; i++){
     heatmapData.push([currentLocation.latitude, currentLocation.longitude])
   }
 }
-var heat = L.heatLayer(heatmapData, {minOpacity: 0.3, radius: 10, blur: 1 }).addTo(myMap);
+var heat = L.heatLayer(heatmapData, {minOpacity: 0.2, radius: 10, blur: 1 }).addTo(myMap);
 //>>>>>>> c33c66436a37126e6b58f8eb6851bf8083c84980
