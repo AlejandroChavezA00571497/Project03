@@ -9,7 +9,23 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-  <!--h1>Open the console!</h1-->
+
+    <div>
+        <label for="companyDropdown">Select a Company:</label>
+        <select id="companyDropdown">
+            <!-- Options will be added dynamically using D3.js -->
+        </select>
+    </div>
+    <div>
+        <h2>Company Information</h2>
+        <p>Average Total Yearly Compensation: <span id="avgCompensation"></span></p>
+        <p>Average Years of Experience: <span id="avgExperience"></span></p>
+        <p>Average Years at Company: <span id="avgYearsAtCompany"></span></p>
+        <p>Gender Distribution:</p>
+        <ul id="genderDistribution">
+            <!-- Gender distribution will be added dynamically using D3.js -->
+        </ul>
+    </div>
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
@@ -73,5 +89,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
   <script src="demo.js"></script>
+
 </body>
 </html>
