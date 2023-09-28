@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-  <!--h1>Open the console!</h1-->
+
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
@@ -20,13 +20,27 @@
     <div class="row">
       <div class="col-md-2">
         <div class="well">
-          <h5>Company:</h5>
-          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+            <div>
+                <label for="companyDropdown">Select a Company:</label>
+                <select id="companyDropdown">
+                    <!-- Options will be added dynamically using D3.js -->
+                </select>
+            </div>
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">Info</h3>
           </div>
+          <div>
+            <h2><strong>Company Information</strong></h2>
+       <p><strong>Average Total Yearly Compensation:</strong> <span id="avgCompensation"></span></p>
+       <p><strong>Average Years of Experience:</strong> <span id="avgExperience"></span></p>
+       <p><strong>Average Years at Company:</strong> <span id="avgYearsAtCompany"></span></p>
+       <p><strong>Gender Distribution:</strong></p>
+       <ul id="genderDistribution">
+           <!-- Gender distribution will be added dynamically using D3.js -->
+       </ul>
+        </div>
           <div id="sample-metadata" class="panel-body"></div>
         </div>
       </div>
@@ -67,5 +81,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
   <script src="demo.js"></script>
+
 </body>
 </html>
