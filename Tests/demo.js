@@ -184,8 +184,70 @@ function updateCompanyInfo(data) {
 }
 
 
+d3.json(baseUrl)
+    .then(data => {
+        // Extract unique company names from the data
+        const uniqueCompanies = [...new Set(data.map(entry => entry.company))];
 
+        // Populate the new dropdown menu with company options
+        const jobTitleDropdown = d3.select('#jobTitleDropdown');
+        jobTitleDropdown
+            .selectAll('option')
+            .data(uniqueCompanies)
+            .enter()
+            .append('option')
+            .text(d => d);
 
+        // Add event listener to the new dropdown for company selection
+        jobTitleDropdown.on('change', function () {
+            updateJobTitleChart(data); // Pass the 'data' variable to the function
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+
+    function updateJobTitleChart(data) {
+      const selectedCompany = d3.select('#jobTitleDropdown').property('value');
+      const filteredData = data.filter(entry => entry.company === selectedCompany);
+  
+      // Calculate the most common job titles
+      const titleCounts = d3.rollup(
+          filteredData,
+          v => v.length,
+          d => d.title
+      );
+      const mostCommonTitles = Array.from(titleCounts, ([title, count]) => ({
+          title,
+          count,
+      }));
+  
+      // Sort the job titles by count in descending order
+      mostCommonTitles.sort((a, b) => b.count - a.count);
+  
+      // Extract the top N job titles (e.g., top 10)
+      const topN = 10;
+      const topJobTitles = mostCommonTitles.slice(0, topN);
+  
+      // Create data for the bar chart
+      const barChartData = {
+          x: topJobTitles.map(entry => entry.title),
+          y: topJobTitles.map(entry => entry.count),
+          type: 'bar'
+      };
+  
+      // Create layout for the bar chart
+      const barChartLayout = {
+          title: `Most Common Job Titles at ${selectedCompany}`,
+          xaxis: { title: 'Job Title' },
+          yaxis: { title: 'Count' },
+          width: 900,
+          height: 650
+      }
+  
+      // Update the display with the bar chart
+      Plotly.newPlot('bar', [barChartData], barChartLayout);
+  }
 
 
 //---------------------------------------------------------------------------

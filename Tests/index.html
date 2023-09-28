@@ -13,7 +13,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <h1>Data Salaries Dashboard</h1>
+        <h1>Tech Salaries Dashboard</h1>
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
@@ -47,6 +47,10 @@
       <div class="col-md-5">
         <h3>Most Common Titles per Company</h3>
         <div id="bar"></div>
+        <label for="jobTitleDropdown">Select a Company:</label>
+        <select id="jobTitleDropdown">
+        <!-- Options will be added dynamically using D3.js -->
+        </select>
       </div>
       <div class="col-md-5">
         <div id="gauge"></div>
