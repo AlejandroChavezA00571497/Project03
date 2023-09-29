@@ -5,9 +5,11 @@ body {
   h1 {
     font-size: 36px;
   }
-  
+  h4 {
+    font-size: 16px;
+  }
   p {
-    font-size: 18px;
+    font-size: 12px;
     line-height: 1.6;
   }
 
