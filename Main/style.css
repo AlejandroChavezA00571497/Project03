@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  h1 {
+    font-size: 36px;
+  }
+  
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  body {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .jumbotron {
+    background-color: #0859af;
+    color: #fff;
+  }
+  
+  a {
+    color: #007bff;
+  }
+  .jumbotron {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .well {
+    padding: 10px;
+  }
+  
+  .panel-body {
+    padding: 20px;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  select {
+    width: 100%;
+    padding: 5px;
+  }
